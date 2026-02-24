@@ -1,0 +1,37 @@
+name: CI
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+env:
+  JAVA_VERSION: '17'
+  APP_NAME: spring-pet-clinic
+concurrency: 
+  group: ci-{{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v6.0.2
+      - name: setup java
+        uses: actions/setup-java@v5.2.0
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+          cache: maven
+      - name: build java
+        run: mvn clean verify
+      - name: upload artifacts
+        uses: actions/upload-artifact@v6.0.0
+        with:
+          name: ${{ env.APP_NAME }}-test-reports
+          path: target/surefire-reports/
+          
+        
+        
+      
