@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-java@v5.2.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
-          distribution: 'temulin'
+          distribution: 'temurin'
           cache: maven
       - name: build java
         run: mvn clean verify
